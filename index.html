@@ -494,6 +494,11 @@ input {
 }
 .action-btn.primary { background:#d9a846; color:#24180f; }
 .action-btn.secondary { background:#b27c47; color:#fff; }
+.action-btn.noone {
+  background:#3f3f3f;
+  color:#fff;
+  border:2px solid rgba(255,255,255,.14);
+}
 
 @media(max-width:1050px) {
   .team-grid { grid-template-columns:1fr; }
@@ -617,6 +622,7 @@ input {
     <div id="answerBox" class="answer-box hidden"></div>
     <div class="actions">
       <button class="action-btn" onclick="toggleAnswer()">إظهار الإجابة</button>
+      <button class="action-btn noone" onclick="noOneAnswered()">لا أحد</button>
       <button id="giveOne" class="action-btn primary" onclick="givePoints('one')"></button>
       <button id="giveTwo" class="action-btn secondary" onclick="givePoints('two')"></button>
     </div>
@@ -1119,6 +1125,15 @@ function givePoints(team) {
   if (team === "two") score2 += current.pts;
   used[current.gi + "-" + current.qi] = true;
   turn = team === "one" ? "two" : "one";
+  closeModal();
+  update();
+  renderBoard();
+}
+
+function noOneAnswered() {
+  if (!current) return;
+  used[current.gi + "-" + current.qi] = true;
+  turn = turn === "one" ? "two" : "one";
   closeModal();
   update();
   renderBoard();
